@@ -25,7 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
     reportDashboardLink.addEventListener('click',  function() {
 	  chrome.storage.sync.get('reportDashboardUrl', function(data) {
 		  console.log("Getting reportDashboardUrl: "+data.reportDashboardUrl);
-		  window.open(data.reportDashboardUrl, '_blank').focus();
+		  let reportDashboardUrl = data.reportDashboardUrl;
+
+		  chrome.storage.sync.get('userId', function(data) {
+			  console.log("Getting userId: "+data.userId);
+			  userId = data.userId;
+			  window.open(reportDashboardUrl+ "?used_id=" + encodeURIComponent(userId), '_blank').focus();
+			});
 		});
 	});
 

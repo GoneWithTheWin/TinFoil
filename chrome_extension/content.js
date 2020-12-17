@@ -172,37 +172,20 @@ function checkNewAds(userId){
 					console.log("Ad data: ");
 					console.log(adData);
 
-					jQuery.ajax({
-					  url: storageData.serverUrl,
-					  dataType: 'json',
-					  contentType: 'application/json',
-					  type: "POST",
-					  data: JSON.stringify(adData),
-					  success: function(response) {
-						    console.log("Success response: "+response);
+					chrome.runtime.sendMessage(adData, function(response) {
+					      console.log("Send meessage response: ");
+					      console.log(response);
+					      var count = response.count;
+
 							var $postMenu = $ad.find("div[aria-label='Actions for this post']").parent();
-							var count = parseInt(response),
 								message = count == 0 ? "New ad" : count == 1 ? count + " ad in last 30 days" : count + " ads in last 30 days";
 
 							var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>" +  message + "</div>");
-							chip.on("click", function(){ window.open(reportDashboardUrl+ "?used_id=" + userId + "&advertiser=" + advertiser)});
+							chip.on("click", function(){ window.open(reportDashboardUrl+ "?used_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser))});
 
 							$postMenu.before(chip);
 							setTimeout(function(){ chip.css({"top": "5px", "opacity": 1}); }, 1);
-					  },
-					  error: function(errorResp) {
-						    console.log("Error response: "+errorResp);
-							var $postMenu = $ad.find("div[aria-label='Actions for this post']").parent();
-							var count = 1,
-								message = count == 0 ? "New ad" : count == 1 ? count + " ad in last 30 days" : count + " ads in last 30 days";
-
-							var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>" +  message + "</div>");
-							chip.on("click", function(){ window.open(reportDashboardUrl + "?used_id=" + userId + "&advertiser=" + advertiser)});
-
-							$postMenu.before(chip);
-							setTimeout(function(){ chip.css({"top": "5px", "opacity": 1}); }, 1);
-					  }
-					});
+					  });
 				});
 
 			}, 1000);
