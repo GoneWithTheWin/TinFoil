@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TinFoil</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css' />
+    <link rel="stylesheet" href='https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css' />
+    <link rel='stylesheet' href='./stylesheets/style.css' />
+  </head>
+  <body>
+    <div id="pageWrapper">
+      <header id="mainNav">
+        <div id="logoNav">
+          <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 29.77 23.39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <title>Cadent Logo</title>
+              <g id="Cadent Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="Group-11">
+                      <path d="M1.16751969,20.9778189 C1.43633858,21.7379764 2.12114173,22.271126 3.01759843,22.4967165 C3.60814961,22.6452992 5.69870079,23.0648268 9.80964567,23.270811 L12.4614567,22.0278189 L28.7009055,4.90183465 L29.0084646,3.89317323 C28.8447638,3.17270079 28.6893307,2.67734646 28.5941339,2.409 C28.3255512,1.6486063 27.640748,1.11569291 26.7442913,0.890102362 C26.1537402,0.741519685 24.0646063,0.325062992 19.9560236,0.11907874 L16.9198819,2.09671654 L2.9538189,16.2699449 L0.757204724,19.4964803 C0.920669291,20.215063 1.07279528,20.7097087 1.16751969,20.9778189" id="Fill-1" fill="#0000FF"></path>
+                      <path d="M14.8809921,9.4488189e-05 C7.33894488,9.4488189e-05 3.81453543,0.689149606 3.01752756,0.889700787 C2.12107087,1.11529134 1.43626772,1.64820472 1.16744882,2.4083622 C0.868629921,3.25379528 4.72440945e-05,6.216 4.72440945e-05,11.5748976 C4.72440945e-05,13.0819843 0.0702047244,14.5203307 0.175559055,15.668126 L1.3887874,15.7973386 L14.8828819,2.03749606 L15.708,0.00316535433 C15.4370551,0.00127559055 15.1628031,9.4488189e-05 14.8809921,9.4488189e-05" id="Fill-3" fill="#FF0000"></path>
+                      <path d="M0.175582677,15.6681732 C0.326055118,17.3070709 0.549992126,18.5857323 0.75715748,19.496126 L19.9559764,0.118724409 C18.7257402,0.0568346457 17.3147953,0.0140787402 15.7080236,0.00321259843 L0.175582677,15.6681732 Z" id="Fill-5" fill="#FF00FF"></path>
+                      <path d="M14.8849134,23.3898425 C22.4269606,23.3898425 25.9513701,22.7007874 26.748378,22.5 C27.6448346,22.2744094 28.3294016,21.7414961 28.5982205,20.9813386 C28.8970394,20.1361417 29.765622,17.1737008 29.7658583,11.8150394 C29.7658583,10.3079528 29.6957008,8.86937008 29.5903465,7.72181102 L28.3768819,7.59259843 L14.8827874,21.3524409 L14.0576693,23.3865354 C14.3286142,23.3884252 14.6031024,23.3898425 14.8849134,23.3898425" id="Fill-7" fill="#00FF00"></path>
+                      <path d="M29.5903228,7.7217874 C29.4396142,6.08265354 29.2156772,4.80422835 29.0085118,3.89359843 L9.80992913,23.2712362 C11.0401654,23.3328898 12.450874,23.3756457 14.0576457,23.3865118 L29.5903228,7.7217874 Z" id="Fill-9" fill="#00FFFF"></path>
+                  </g>
+              </g>
+          </svg>
+        </div>
+        <div id="appName" class="componentsLarge">Tinfoil</div>
+        <ul id="mainNavTabs">
+            <li class="activeTab"><button class="button tertiary">Dashboard</button></li><!--
+         --><li><button class="button tertiary">Insights</button></li>
+          </ul>
+      </header>
+      <header id="pageTitle">
+        <h3>Advertising History</h3>
+      </header>
+      <div class="pageTitleShadowTop"></div>
+      <div class="pageTitleShadowTopCover"></div>
+      <main id="content">
+        <div class="wrapper standardPadding">
+          <div id="row1" class="layoutRow">
+            <div class="dataPoint" id="totalAds">
+              <div class="componentsSmall">
+                Ads in last 30 days
+              </div>
+              <h1 class="">
+                500
+              </h1>
+            </div>
+            <div class="dataPoint" id="avgFrequency">
+              <div class="componentsSmall">
+                Avg. Frequency last 30 days
+              </div>
+              <h1 class="" style="color: #00CCED;">
+                13.56
+              </h1>
+            </div>
+          </div>
+          <div id="row2" class="layoutRow">
+            <div id="timeSeries">Time Series Here by Hour</div>
+            <div id="topBrands">(Optional) Top Brands Piechart</div>
+          </div>
+          <div id="row3" class="layoutRow">
+            <div id="tableFilter">
+              <div id="filterWrapper">
+                <label class="filterIcon"></label>
+              </div>
+            </div>
+            <div id="eventTable">
+              <table id="eventMainTable">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Event</th>
+                    <th>Publisher</th>
+                    <th>Advertiser</th>
+                    <th>Brand Cat.</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="./javascripts/main.js"></script>
+
+</html>
