@@ -475,7 +475,7 @@ footer#mainFooter {
 /* Tinfoil Layout */
 .layoutRow {
   width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .dataPoint {
@@ -484,25 +484,39 @@ footer#mainFooter {
 
 #row1 {
   display: flex;
+  margin-bottom: 24px;
 }
 
 #row2 {
   display: flex;
 }
 
+.card {
+  padding: 24px;
+  background: #FFF;
+  border: 1px solid #B3C0CB;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartTitle {
+  color: #1D252D;
+  margin-bottom: 24px;
+}
+
 #timeSeries {
-  background: rgba(236, 239, 242, 0.5);
   width: auto;
-  min-height: 300px;
+  height: 400px;
   flex: 1;
   margin-right: 48px;
 }
 
 #topBrands {
-  background: rgba(236, 239, 242, 0.5);
-  width: 300px;
-  min-width: 300px;
-  min-height: 300px;
+  width: auto;
+  height: 400px;
+  width: 400px;
+  min-width: 500px;
   flex: 0;
 }
 
@@ -522,20 +536,50 @@ footer#mainFooter {
 }
 
 input {
+  font-family: 'Inter var', sans-serif;
+  padding: 0px 16px 0px;
   min-width: 300px;
-  height: 40px;
   border: 1px solid #B3C0CB;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 38px;
+  font-weight: 300;
 }
 
+input::placeholder {
+  color: #B3C0CB;
+  font-weight: 400;
+}
 
+label > i + input {
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.chartContainer {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+/* END Tinfoul Layout */
+
+
+/** 
+Table styling
+**/
 #eventMainTable_filter {
     padding-top:15px;
 }
 #eventMainTable th {
     text-align:left;
+    padding: 15px 10px;
+}
+#eventMainTable td {
+  padding:15px 10px;
 }
 .dataTables_wrapper .dataTables_filter {
     float:left;
 }
-
-/* END Tinfoul Layout */
