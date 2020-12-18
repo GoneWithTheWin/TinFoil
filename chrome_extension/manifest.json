@@ -1,0 +1,30 @@
+{
+  "name": "TinFoil",
+  "version": "0.1",
+  "description": "Facebook Advertising History",
+  "icons": {
+  	"128": "TinFoil.png" 
+  },
+  "permissions": ["alarms", "activeTab","declarativeContent","storage",
+  	"http://ec2-13-56-191-71.us-west-1.compute.amazonaws.com:5000/",
+ 	"https://ec2-13-56-191-71.us-west-1.compute.amazonaws.com:5000/"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["http://www.facebook.com/*", 
+    	"https://www.facebook.com/*"
+    ],
+    "js": ["content.js"]
+  }],
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "TinFoil.png"
+    }
+  },
+  "options_page": "options.html",  
+  "manifest_version": 2
+}
