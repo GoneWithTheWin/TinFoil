@@ -573,16 +573,44 @@ label > i + input {
 /** 
 Table styling
 **/
+#eventTable {
+  padding:0;
+  background: #fff;
+}
 #eventMainTable_filter {
     padding-top:15px;
 }
 #eventMainTable th {
     text-align:left;
     padding: 15px 10px;
+    font-size:14px;
+    font-weight:var(--semibold);
 }
 #eventMainTable td {
-  padding:15px 10px;
+  padding:24px 10px;
+  white-space: nowrap;
+    max-width: 9vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#eventMainTable .odd {
+  background:rgba(236, 239, 242, 0.5);
+}
+#eventMainTable tbody tr td {
+  font-size:14px;
+  border-bottom:1px solid #f0f0f0;
 }
 .dataTables_wrapper .dataTables_filter {
     float:left;
+}
+.tooltip-top {display: block;}
+.tooltip-high {
+  height:50px;
+  font-weight:bold;
+  margin-top:15px !important;
+  display:block;
+  font-size:14px; 
+  margin-left:5px;
+  line-height: 20px;
+  padding-top: 15px !important;
 }
