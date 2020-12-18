@@ -77,8 +77,7 @@ def process_data():
             #table = ['user_id', 'combo', 'ad_title', 'ad_type', 'event_id', 'publisher', 'advertizer', 'brand_category', 'ad_description', 'image_url', 'device_type', 'ip_address', 'time_stamp']
             keysNeeded = ['user_id', 'ad_title', 'ad_type', 'publisher', 'advertizer', 'brand_category', 'ad_description', 'image_url', 'device_type'] 
             datetime_now = datetime.now()
-            #datetime_string = datetime_now.strftime("%Y%m%d%H%M%S%f")  # TODO uncommented when table definition changed from 10 to 20 in width
-            datetime_string = datetime_now.strftime("%Y%m%d%H")
+            datetime_string = datetime_now.strftime("%Y%m%d%H%M%S%f")  
             datetime_string3 = datetime_now.strftime("%Y%m%d %H:%M:%S")
             for k in keysNeeded :
                   if k not in records or not records[k] :
