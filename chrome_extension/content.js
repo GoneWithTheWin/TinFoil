@@ -92,7 +92,7 @@ function checkNewAds(userId){
 		var count = 0;
 		var sponsoredText = jQuery(this).find("a[href^='#'] span>:contains('S') > span:not([style*=absolute])");
 		if (sponsoredText.length == 0) sponsoredText = jQuery(this).find("a[href^='/ads/'] > span:not([style*=absolute])").length ? true : false;
-		
+
 		if ((sponsoredText.length == 9 && jQuery(sponsoredText[0]).text() == "S") || (sponsoredText.length == 8 && jQuery(sponsoredText[0]).text() == "p") || sponsoredText === true) {
 		    console.log("New Ad Found");
 		    console.log(this);
@@ -155,7 +155,7 @@ function checkNewAds(userId){
 					"brand_category":   category,
 					"ad_type":    (typeof adImage.url==='undefined') || adImage.url=="" ? "Video Ad" : "Display Ad",
 					"ad_title":   contentTitle,
-					"ad_description": contentDescription,
+					"ad_description": description,
 					"image_url":   adImage.url
 				};
 
@@ -191,7 +191,7 @@ function checkNewAds(userId){
 									$snoozedPost.css({transition: "all 0.35s ease, margin 0.15s ease, opacity 0.15s ease", height: "62px"});
 								chip.on("click", function(){
 									$snoozedPost.css({height: "auto"});
-									chip.text(message).off("click").on("click", function(){ 
+									chip.text(message).off("click").on("click", function(){
 										window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser));
 									});
 								});
