@@ -72,7 +72,6 @@ def process_data():
             ip_address = request.remote_addr
             data_log.info("from IP address: " + ip_address)
             dynamodb = boto3.resource('dynamodb')
-            table = dynamodb.Table('ad_event')
             
             #table = ['user_id', 'combo', 'ad_title', 'ad_type', 'event_id', 'publisher', 'advertizer', 'brand_category', 'ad_description', 'image_url', 'device_type', 'ip_address', 'time_stamp']
             keysNeeded = ['user_id', 'ad_title', 'ad_type', 'publisher', 'advertizer', 'brand_category', 'ad_description', 'image_url', 'device_type'] 
@@ -89,11 +88,24 @@ def process_data():
             row['ip_address'] = ip_address
             data_log.info("pass connect to dynamodb, before insert ")
             data_log.info(row)
+
+            table = dynamodb.Table('rpt_user_advertizer')
+            query_response = table.query( KeyConditionExpression=Key('user_id').eq(row['user_id']) & Key('advertizer').eq(row['advertizer']) , ConsistentRead=True)
+            data_log.info(query_response['Items'])
+            count = 0
+            if len(query_response['Items']) == 0:
+                   count = 0
+            else: 
+                   count = query_response['Items'][0]['impressions']
             
+            print ("the counts for user_id", row['user_id'], " is ", count)
+            data_log.info("Retrieved the impression for user_id={0} advertizer={1} impression = {2}".format(row['user_id'], row['advertizer'], count))
+            
+            table = dynamodb.Table('ad_event')
             table.put_item(Item=row)
             data_log.info("record inserted to ad_event table")
             time.sleep(2) # avoid write latency
-            part = 2
+
             table = dynamodb.Table('rpt_user_advertizer')
             query_response = table.query( KeyConditionExpression=Key('user_id').eq(row['user_id']) & Key('advertizer').eq(row['advertizer']) , ConsistentRead=True)
             data_log.info(query_response['Items'])
@@ -104,12 +116,8 @@ def process_data():
             
     except:
             print (sys.exc_info())
-            if part == 1: 
-                message = "can't get the user input"
-                data_log.info("can't get the user input")
-            elif part == 2:
-                message = "can't retrieve impression count"
-
+            message = "Something went wrong when insert user data or retrivev user advertizer counts "
+            data_log.info(message )
             data_log.info(sys.exc_info())
             data_log.info(message )
             return message
@@ -171,9 +179,17 @@ def process_report():
                  if 'advertizer' not in params:
                       params['advertizer'] = 'Unknown'
                  print ('before get query_response')
-                 query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('advertizer').eq(params['advertizer']) )
+                 #query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('advertizer').eq(params['advertizer']) )
+                 #query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']))
+                 query_response = table.query( KeyConditionExpression='user_id = :user_id',
+                                                  ExpressionAttributeValues={':user_id':params['user_id'],},
+                                                  IndexName='user_id-impressions-index',
+                                                  ScanIndexForward= False, 
+                                                  Limit= 10
+                                                )
+                                                  
                  data_log.info(query_response['Items'])
-
+                 print (query_response['Items'])
                  response = app.response_class(response = json.dumps(query_response['Items'] ),
                                           status = 200,
                                           mimetype='application/json'
