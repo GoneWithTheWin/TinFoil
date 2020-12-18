@@ -30,13 +30,16 @@ $(document).ready(function() {
         var filter = $('#eventMainTable_filter');
         var lbl = filter.find('label');
         lbl.addClass('filterIcon');
-        lbl.prepend($('<i class="fa fa-filter"></i>'));
-        var icon = lbl.find('i').get(0);
-        if(icon) {
-            $(icon.nextSibling).remove();
+        var input = lbl.find('input');
+        input.attr('id', 'tableFilter');
+        input.attr('placeholder', 'Search');
+        var ll = lbl.get(0);
+        if(ll && ll.childNodes.length) {
+          if(ll.childNodes[0].nodeType == 3) {
+            ll.removeChild(ll.childNodes[0]);
+          }
         }
-        lbl.find('input').attr('id', 'tableFilter');
-
+        
         $('#tableToolbar #filterWrapper').append(filter);
     } );
 
@@ -66,64 +69,92 @@ $(document).ready(function() {
         colors: ['#2D61FF', '#00CCED', '#13D666', '#FFC72F', '#FF9700', '#E50000', '#FC2C7D', '#A937FD', '#41515F', '#B3C0CB', '#143CBF', '#00A3BE', '#11BF5B', '#BF215F', '#802ABF']
     });
     
-    var timeSeriesData = [[1608390000, 10],[1608397200, 15],[1608400800, 6],[1608404400, 22],[1608408000, 3],[1608411600, 19],[1608415200, 13],[1608418800, 5],[1608422400, 2],[1608426000, 4],[1608429600, 8],[1608433200, 15],[1608436800, 27]]
-    
     var timeSeriesUrl = baseUrl + '?report=rpt_user_hour&user_id=' + userId;
-    
-    Highcharts.chart('timeSeriesContainer', {
-          chart: {
-            zoomType: 'x'
-          },
-          credits: {
-            enabled: false
-          },
+
+    $.getJSON(timeSeriesUrl, {}, function(dtaa) {
+
+      var timeSeriesData = [];
+      for(var i = 0; i < dtaa.length; i++) {
+        var single = dtaa[i];
+        var hrStr = single.hour_string;
+        var imps = parseInt(single.impressions, 10);
+
+        var split = hrStr.split(' ');
+        var dt = split[0];
+        var dtParts = dt.split('/');
+        var tm = split[1];
+        var tmParts = tm.split(':');
+
+        var dtObj = new Date();
+        dtObj.setDate(parseInt(dtParts[1]));
+        dtObj.setMonth(parseInt(dtParts[0]) - 1);
+        dtObj.setFullYear(parseInt('20' + dtParts[2]));
+        dtObj.setHours(parseInt(tmParts[0]));
+        dtObj.setMinutes(parseInt(tmParts[1]));
+
+        timeSeriesData.push([ parseInt(dtObj.getTime() / 1000), imps]);
+      };
+      console.log('timeseries data is');
+      console.log(timeSeriesData);
+
+      Highcharts.chart('timeSeriesContainer', {
+        chart: {
+          zoomType: 'x'
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: ''
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
           title: {
             text: ''
-          },
-          xAxis: {
-            type: 'datetime'
-          },
-          yAxis: {
-            title: {
-              text: ''
-            }
-          },
-          legend: {
-            enabled: false
-          },
-          plotOptions: {
-            area: {
-              fillColor: {
-                linearGradient: {
-                  x1: 0,
-                  y1: 0,
-                  x2: 0,
-                  y2: 1
-                },
-                stops: [
-                  [0, Highcharts.getOptions().colors[0]],
-                  [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                ]
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          area: {
+            fillColor: {
+              linearGradient: {
+                x1: 0,
+                y1: 0,
+                x2: 0,
+                y2: 1
               },
-              marker: {
-                radius: 2
-              },
-              lineWidth: 1,
-              states: {
-                hover: {
-                  lineWidth: 1
-                }
-              },
-              threshold: null
-            }
-          },
-    
-          series: [{
-            type: 'area',
-            name: 'Ads Viewed',
-            data: timeSeriesData
-          }]
+              stops: [
+                [0, Highcharts.getOptions().colors[0]],
+                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+              ]
+            },
+            marker: {
+              radius: 2
+            },
+            lineWidth: 1,
+            states: {
+              hover: {
+                lineWidth: 1
+              }
+            },
+            threshold: null
+          }
+        },
+  
+        series: [{
+          type: 'area',
+          name: 'Ads Viewed',
+          data: timeSeriesData
+        }]
+  });
+
     });
+    
+    
     
     //var topBrandsData = [{name:"Apple", y:55},{Name:"Google",y: 42},{name:"Portal by Facebook", y:39},{name:"Nest", y:33},{name:"Autonomous", y:32},{name:"Uplift", y:27},{name:"BevMo", y:22},{name:"Chipotle", y:19},{name:"Total Wine", y:18},{name:"Masterclass", y:18}];
     

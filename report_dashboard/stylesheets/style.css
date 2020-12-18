@@ -367,9 +367,11 @@ html, body {
 }
 
 #logoNav {
-  height: 24px;
+  height: 36px;
   width: 30px;
   align-self: center;
+  top: -4px;
+  position: relative;
 }
 
 #appName {
@@ -565,6 +567,7 @@ label > i + input {
 }
 
 /* END Tinfoul Layout */
+
 
 
 /** 
