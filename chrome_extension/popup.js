@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		  chrome.storage.sync.get('userId', function(data) {
 			  console.log("Getting userId: "+data.userId);
 			  userId = data.userId;
-			  window.open(reportDashboardUrl+ "?used_id=" + encodeURIComponent(userId), '_blank').focus();
+			  window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId), '_blank').focus();
 			});
 		});
 	});
