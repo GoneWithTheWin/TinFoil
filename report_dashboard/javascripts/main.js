@@ -126,7 +126,8 @@ $(document).ready(function() {
       if(data && data.length) {
         var single = data[0];
         $('#totalAdsValue').text(single.impressions);
-        $('#avgAdsValue').text(single.average_advertizer_impressions);
+        var val = parseFloat(single.average_advertizer_impressions);
+        $('#avgAdsValue').text(Math.round(val * 100) / 100);
       }
     });
 
@@ -309,4 +310,7 @@ $(document).ready(function() {
     });
     });
 
+    
+    
+    
   });

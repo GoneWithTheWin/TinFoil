@@ -589,7 +589,7 @@ Table styling
 #eventMainTable td {
   padding:24px 10px;
   white-space: nowrap;
-    max-width: 11vw;
+    max-width: 9vw;
     overflow: hidden;
     text-overflow: ellipsis;
 }
