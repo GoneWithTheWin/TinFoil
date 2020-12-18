@@ -42,13 +42,35 @@ chrome.runtime.onMessage.addListener(
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.id +" "+ sender.tab.url :
                 "from the extension");
-    var adCount = 0;
+
     if (sender.tab) {
-      adCount = sendAdData(request);
-	}
-    sendResponse({count: adCount});
+        let adData = request;
+        // Call server url
+        chrome.storage.sync.get('serverUrl', function(storageData) {
+          console.log("Get serverUrl: "+storageData.serverUrl);
+            jQuery.ajax({
+              url: storageData.serverUrl,
+              dataType: 'json',
+              contentType: 'application/json',
+              type: "POST",
+              data: JSON.stringify(adData),
+              success: function(successResp) {
+                  console.log("Success response: "+successResp);
+                  var adCount = parseInt(successResp);
+                  sendResponse({count: adCount});
+              },
+              error: function(errorResp) {
+                  console.log("Error response: "+errorResp);
+                  console.log(errorResp);
+                  sendResponse({count: 0});
+              }
+            });
+        });
+    }
+    return true;
   }
 );
+
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
   console.log("Timer triggered!");
@@ -68,34 +90,4 @@ function triggerCheckNewAds() {
 
 };
 
-
-function sendAdData(adData) {
-	console.log("Ad data: ");
-	console.log(adData);
-
-	let adCount = 0;
-
-	// Call server url
-	chrome.storage.sync.get('serverUrl', function(storageData) {
-	  console.log("Get serverUrl: "+storageData.serverUrl);
-		jQuery.ajax({
-		  url: storageData.serverUrl,
-		  dataType: 'json',
-		  contentType: 'application/json',
-		  type: "POST",
-		  data: JSON.stringify(adData),
-		  success: function(response) {
-			  console.log("Success response: "+response);
-			  adCount =  parseInt(response);
-		  },
-		  error: function(errorResp) {
-			  console.log("Error response: "+errorResp);
-			  console.log(errorResp);
-		  }
-		});
-	});
-
-	return adCount;
-
-}
 
