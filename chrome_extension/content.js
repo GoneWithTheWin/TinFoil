@@ -91,7 +91,9 @@ function checkNewAds(userId){
 	$unprocessedPosts.each( function(){
 		var count = 0;
 		var sponsoredText = jQuery(this).find("a[href^='#'] span>:contains('S') > span:not([style*=absolute])");
-		if ((sponsoredText.length == 9 && jQuery(sponsoredText[0]).text() == "S") || (sponsoredText.length == 8 && jQuery(sponsoredText[0]).text() == "p")) {
+		if (sponsoredText.length == 0) sponsoredText = jQuery(this).find("a[href^='/ads/'] > span:not([style*=absolute])").length ? true : false;
+		
+		if ((sponsoredText.length == 9 && jQuery(sponsoredText[0]).text() == "S") || (sponsoredText.length == 8 && jQuery(sponsoredText[0]).text() == "p") || sponsoredText === true) {
 		    console.log("New Ad Found");
 		    console.log(this);
 		    jQuery(this).addClass("cad_newAdToProcess");
