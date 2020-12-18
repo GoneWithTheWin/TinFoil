@@ -182,9 +182,20 @@ function checkNewAds(userId){
 							var $postMenu = $ad.find("div[aria-label='Actions for this post']").parent();
 								message = count == 0 ? "New ad" : count == 1 ? count + " ad in last 30 days" : count + " ads in last 30 days";
 
-							var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>" +  message + "</div>");
-							chip.on("click", function(){ window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser))});
-
+							if (count <= 10) {
+								var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>" +  message + "</div>");
+								chip.on("click", function(){ window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser))});
+							} else {
+								var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>Advertiser Snoozed</div>");
+								var $snoozedPost = $ad.find("div[role='article'] > div > div > div > div");
+									$snoozedPost.css({transition: "all 0.35s ease, margin 0.15s ease, opacity 0.15s ease", height: "62px"});
+								chip.on("click", function(){
+									$snoozedPost.css({height: "auto"});
+									chip.text(message).off("click").on("click", function(){ 
+										window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser));
+									});
+								});
+							}
 							$postMenu.before(chip);
 							setTimeout(function(){ chip.css({"top": "5px", "opacity": 1}); }, 1);
 					  });
