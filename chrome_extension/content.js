@@ -128,7 +128,7 @@ function checkNewAds(userId){
 
 			    //wait till elements render to DOM
 			    setTimeout(function(){
-			    var $cad_panel = jQuery("a[aria-label='" + advertiser + "']").eq(1).parent().parent().parent().parent();
+			    var $cad_panel = jQuery("a[aria-label=\"" + advertiser + "\"]").eq(1).parent().parent().parent().parent();
                     $cad_panel.css({"position": "absolute", "left": "-5000px"});
 			    var items = $cad_panel.find("span[dir='auto']");
 			    if (typeof items == "undefined") return; // This is the case of a carousel need to handle
