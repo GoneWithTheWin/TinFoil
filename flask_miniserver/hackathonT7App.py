@@ -25,20 +25,11 @@ global HOME_DIR
 HOME_DIR="/".join(folder)
 PROC_IDFILE=HOME_DIR+'/log/.pidf'
 file_path = os.path.abspath("logging.conf")
-print ("the file_path is :", file_path)
 
 fileConfig(file_path)
 script_log = logging.getLogger("root")
 data_log = logging.getLogger("hackathonT7")
-"""
-try: 
-   context = ssl.Context(SSL.PROTOCOL_TLSv1_2)
-   context.use_privatekey_file('key.pem')
-   context.use_certificate_file('certificate.pem')
-except:
-    print ("Can't create ssl context")
-    print (sys.exc_info())
-"""
+
 try:
     pfile=open(PROC_IDFILE, "w")
     pfile.write(str(os.getpid()))
@@ -128,11 +119,8 @@ def process_data():
 @app.route('/')
 @app.route("/hackathon/show_report", methods = ['GET'])
 def process_report():
-    print ("before data_log")
     data_log.info("-------------------")
-    print ("after first data log")
     data_log.info("Receiving Hackathon Team 7 data ")
-    data_log.info("-------------------")
     try:
             params = request.args.to_dict()
             print ('the list of params is', params )
@@ -176,7 +164,6 @@ def process_report():
                  print ('before get query_response')
                  query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('ad_type').eq(params['ad_type']) )
                  data_log.info(query_response['Items'])
-                 print ("after query_response") 
                  response = app.response_class(response = json.dumps(query_response['Items'] ),
                                           status = 200,
                                           mimetype='application/json'
@@ -187,7 +174,6 @@ def process_report():
                  print ('before get query_response')
                  query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('advertizer').eq(params['advertizer']) )
                  data_log.info(query_response['Items'])
-                 print ("after query_response")
 
                  response = app.response_class(response = json.dumps(query_response['Items'] ),
                                           status = 200,
@@ -199,11 +185,8 @@ def process_report():
                       params['advertizer'] = 'Unknown'
                  if 'brand_category' not in params:
                       params['brand_category'] = 'Unknown'
-                 print ('before get query_response')
-                 #query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('advertizer').eq(params['advertizer']) & Key('brand_category').eq(params['brand_category']) )
                  query_response = table.query( KeyConditionExpression=Key('user_id').eq(params['user_id']) & Key('combo').eq("|".join([params['advertizer'], params['brand_category']])))
                  data_log.info(query_response['Items'])
-                 print ("after query_response")
 
                  response = app.response_class(response = json.dumps(query_response['Items'] ),
                                           status = 200,
@@ -236,14 +219,6 @@ def process_report():
 if __name__ == '__main__':
     print ("start to run hackathonT7App.py")
     data_log.info("start to run hackathonT7App.py")
-    #context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-    #context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    #context = ssl.SSLContext()
-    #context.load_cert_chain('certificate.pem','key.pem')  
-    #context.use_privatekey_file('key.pem')
-    #context.use_certificate_file('certificate.pem')
-    #app.run( threaded = True, host=controller_host, ssl_context=('certificate.pem','key.pem' ))
-    #app.run( threaded = True, host=controller_host, ssl_context=context)
     app.run( threaded = True, host=controller_host)
 
 
