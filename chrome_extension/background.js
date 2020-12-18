@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(function() {
 		});
   });
 
-  chrome.storage.sync.set({reportDashboardUrl: 'http://ec2-13-56-191-71.us-west-1.compute.amazonaws.com:5000/hackathon/show_report'}, function() {
+  chrome.storage.sync.set({reportDashboardUrl: 'https://ec2-13-56-191-71.us-west-1.compute.amazonaws.com/'}, function() {
 	  chrome.storage.sync.get('reportDashboardUrl', function(data) {
 		  console.log("Set reportDashboardUrl: "+data.reportDashboardUrl);
 		});

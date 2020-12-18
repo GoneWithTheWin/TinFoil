@@ -151,7 +151,7 @@ function checkNewAds(userId){
 					"publisher":  location.host,
 					"advertizer": advertiser,
 					"brand_category":   category,
-					"ad_type":    "",
+					"ad_type":    (typeof adImage.url==='undefined') || adImage.url=="" ? "Video Ad" : "Display Ad",
 					"ad_title":   contentTitle,
 					"ad_description": contentDescription,
 					"image_url":   adImage.url
@@ -181,7 +181,7 @@ function checkNewAds(userId){
 								message = count == 0 ? "New ad" : count == 1 ? count + " ad in last 30 days" : count + " ads in last 30 days";
 
 							var chip = jQuery("<div class='chip' style='top: -5px; opacity:0;'>" +  message + "</div>");
-							chip.on("click", function(){ window.open(reportDashboardUrl+ "?used_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser))});
+							chip.on("click", function(){ window.open(reportDashboardUrl+ "?user_id=" + encodeURIComponent(userId) + "&advertiser=" + encodeURIComponent(advertiser))});
 
 							$postMenu.before(chip);
 							setTimeout(function(){ chip.css({"top": "5px", "opacity": 1}); }, 1);
