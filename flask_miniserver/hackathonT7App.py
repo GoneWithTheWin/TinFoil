@@ -104,15 +104,8 @@ def process_data():
             table = dynamodb.Table('ad_event')
             table.put_item(Item=row)
             data_log.info("record inserted to ad_event table")
-            time.sleep(2) # avoid write latency
 
-            table = dynamodb.Table('rpt_user_advertizer')
-            query_response = table.query( KeyConditionExpression=Key('user_id').eq(row['user_id']) & Key('advertizer').eq(row['advertizer']) , ConsistentRead=True)
-            data_log.info(query_response['Items'])
-
-            print ("the counts for user_id", row['user_id'], " is ", query_response['Items'][0]['impressions'])
-            data_log.info("Retrieved the impression for user_id={0} advertizer={1} impression = {2}".format(row['user_id'], row['advertizer'], query_response['Items'][0]['impressions']))
-            return str(query_response['Items'][0]['impressions'])
+            return str(count)
             
     except:
             print (sys.exc_info())
